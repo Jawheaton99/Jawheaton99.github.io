@@ -5,8 +5,8 @@
     <style>
         #game-container {
             position: relative;
-            width: 800px;
-            height: 800px;
+            width: 100%;
+            height: 100vh;
             border: 1px solid black;
             overflow: hidden;
             background-color: lightblue;
@@ -14,17 +14,17 @@
         
         #submarine {
             position: absolute;
-            width: 140px;
-            height: 120px;
+            width: 14%;
+            height: 12%;
             bottom: 0;
-            left: 330px;
+            left: 43%;
         }
         
         .obstacle {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            bottom: 800px;
+            width: 10%;
+            height: 10%;
+            bottom: 100%;
             background-image: url('https://iili.io/HsAfAX9.png');
             background-repeat: no-repeat;
             background-size: 100%;
@@ -55,16 +55,27 @@
         let gameSpeed = 2;
         let isGameOver = false;
         let depth = 0;
+        let touchStartX = 0;
+        let touchMoveX = 0;
 
         function moveSubmarine(event) {
             if (isGameOver) return;
             
-            if (event.code === 'ArrowLeft') {
-                let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
-                submarine.style.left = `${leftPosition - 10}px`;
-            } else if (event.code === 'ArrowRight') {
-                let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
-                submarine.style.left = `${leftPosition + 10}px`;
+            let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
+            
+            if (event.type === 'keydown') {
+                if (event.code === 'ArrowLeft') {
+                    submarine.style.left = `${leftPosition - 10}px`;
+                } else if (event.code === 'ArrowRight') {
+                    submarine.style.left = `${leftPosition + 10}px`;
+                }
+            } else if (event.type === 'touchstart') {
+                touchStartX = event.touches[0].clientX;
+            } else if (event.type === 'touchmove') {
+                touchMoveX = event.touches[0].clientX;
+                let deltaX = touchMoveX - touchStartX;
+                submarine.style.left = `${leftPosition + deltaX}px`;
+                touchStartX = touchMoveX;
             }
         }
 
@@ -73,10 +84,10 @@
 
             const obstacle = document.createElement('div');
             obstacle.classList.add('obstacle');
-            obstacle.style.left = `${Math.random() * 700}px`;
+            obstacle.style.left = `${Math.random() * 90}%`;
             gameContainer.appendChild(obstacle);
 
-            let obstacleBottom = 800;
+            let obstacleBottom = 100;
             let gameTimer = setInterval(() => {
                 if (isGameOver) {
                     clearInterval(gameTimer);
@@ -90,7 +101,7 @@
                     score++;
                 }
 
-                obstacle.style.bottom = `${obstacleBottom}px`;
+                obstacle.style.bottom = `${obstacleBottom}%`;
                 obstacleBottom -= gameSpeed;
 
                 let submarineRect = submarine.getBoundingClientRect();
@@ -142,6 +153,8 @@
 
         function startGame() {
             window.addEventListener('keydown', moveSubmarine);
+            window.addEventListener('touchstart', moveSubmarine);
+            window.addEventListener('touchmove', moveSubmarine);
             setInterval(createObstacle, 2000);
             setInterval(increaseGameSpeed, 5000);
             setInterval(updateDepth, 1000);

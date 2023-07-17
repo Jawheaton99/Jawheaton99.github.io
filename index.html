@@ -29,6 +29,14 @@
             background-repeat: no-repeat;
             background-size: 100%;
         }
+
+        #background-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
         
         #depth-counter {
             position: absolute;
@@ -40,6 +48,7 @@
 </head>
 <body>
     <div id="game-container">
+        <img id="background-image" src="https://iili.io/HLVpDSs.png" alt="Background Image">
         <div id="depth-counter">Depth: 0m</div>
         <img id="submarine" src="https://iili.io/HsA3AWg.png" alt="Ocean Gate Titan Submersible PNG" border="0">
     </div>
@@ -105,7 +114,7 @@
         }
 
         function isColliding(rect1, rect2) {
-            let buffer = 60;  // Adjust this value to change the collision threshold
+            let buffer = 70;  // Adjust this value to change the collision threshold
             return (
                 rect1.left + buffer < rect2.right &&
                 rect1.right - buffer > rect2.left &&

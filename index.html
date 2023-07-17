@@ -58,12 +58,14 @@
 
         function moveSubmarine(event) {
             if (isGameOver) return;
-            
-            if (event.code === 'ArrowLeft') {
-                let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
+
+            let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
+            const submarineWidth = parseInt(window.getComputedStyle(submarine).getPropertyValue('width'));
+            const containerWidth = parseInt(window.getComputedStyle(gameContainer).getPropertyValue('width'));
+
+            if (event.code === 'ArrowLeft' && leftPosition > 10) {
                 submarine.style.left = `${leftPosition - 10}px`;
-            } else if (event.code === 'ArrowRight') {
-                let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
+            } else if (event.code === 'ArrowRight' && leftPosition + submarineWidth < containerWidth - 10) {
                 submarine.style.left = `${leftPosition + 10}px`;
             }
         }

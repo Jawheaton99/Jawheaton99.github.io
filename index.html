@@ -29,16 +29,6 @@
             background-repeat: no-repeat;
             background-size: 100%;
         }
-
-        #background-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            width: 100%;
-            height: 100%;
-        }
         
         #depth-counter {
             position: absolute;
@@ -50,7 +40,6 @@
 </head>
 <body>
     <div id="game-container">
-        <img id="background-image" src="https://iili.io/HLVpDSs.png" alt="Background Image">
         <div id="depth-counter">Depth: 0m</div>
         <img id="submarine" src="https://iili.io/HsA3AWg.png" alt="Ocean Gate Titan Submersible PNG" border="0">
     </div>
@@ -139,11 +128,30 @@
         function gameOver() {
             isGameOver = true;
             bgMusic.pause();
+
+            // Create a new img element for the collision image
+            const collisionImage = document.createElement('img');
+            collisionImage.id = 'collision-image';
+            collisionImage.src = 'https://iili.io/HLVpDSs.png';
+            collisionImage.style.position = 'absolute';
+            collisionImage.style.top = '50%';
+            collisionImage.style.left = '50%';
+            collisionImage.style.transform = 'translate(-50%, -50%)';
+            collisionImage.style.zIndex = '10';  // Ensure the image appears above other elements
+            gameContainer.appendChild(collisionImage);
+
             alert(`Game over! Your depth: ${depth}m`);
+
             resetGame();
         }
 
         function resetGame() {
+            // Remove the collision image
+            const collisionImage = document.getElementById('collision-image');
+            if (collisionImage) {
+                collisionImage.remove();
+            }
+
             isGameOver = false;
             score = 0;
             gameSpeed = 2;

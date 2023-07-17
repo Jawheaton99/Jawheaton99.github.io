@@ -105,6 +105,7 @@
         }
 
         function isColliding(rect1, rect2) {
+            let buffer = 20;
             return (
                 rect1.left < rect2.right &&
                 rect1.right > rect2.left &&

@@ -105,7 +105,7 @@
         }
 
         function isColliding(rect1, rect2) {
-            let buffer = 30;  // Adjust this value to change the collision threshold
+            let buffer = 60;  // Adjust this value to change the collision threshold
             return (
                 rect1.left + buffer < rect2.right &&
                 rect1.right - buffer > rect2.left &&

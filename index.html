@@ -9,9 +9,12 @@
         }
 
         .temp, .taste {
-            padding: 10px 20px; /* Larger clickable area */
-            margin: 5px;
-            font-size: 16px; /* Larger font size */
+            padding: 15px 30px; /* Increased padding for larger touch area */
+            margin: 10px;
+            font-size: 18px; /* Increased font size for readability */
+            border: none;
+            border-radius: 5px; /* Rounded corners for a modern look */
+            cursor: pointer; /* Cursor pointer for better UX */
         }
 
         .selected {
@@ -27,7 +30,7 @@
         }
 
         #result {
-            font-size: 18px; /* Larger font size for readability */
+            font-size: 20px; /* Increased font size for readability */
             font-weight: bold;
             text-align: center;
             margin-top: 20px;
@@ -36,11 +39,12 @@
 
         @media screen and (max-width: 600px) {
             .temp, .taste {
-                font-size: 14px; /* Adjust font size for very small screens */
+                padding: 12px 24px; /* Slightly smaller padding for very small screens */
+                font-size: 16px; /* Adjusted font size for very small screens */
             }
 
             #result {
-                font-size: 16px;
+                font-size: 18px;
             }
         }
     </style>
@@ -57,6 +61,9 @@
     <img src="https://alissarumsey.com/wp-content/uploads/2015/06/hangry-photo.jpg" alt="Hangry Photo" style="width: 35%;">
 
     <p id="result"></p>
+</body>
+</html>
+
 
     <script>
         let temperature = '';

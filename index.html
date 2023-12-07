@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,36 +5,56 @@
     <style>
         body {
             background-color: #FFD1DC; /* Pastel Pink */
+            font-family: Arial, sans-serif; /* Better font for readability */
         }
+
+        .temp, .taste {
+            padding: 10px 20px; /* Larger clickable area */
+            margin: 5px;
+            font-size: 16px; /* Larger font size */
+        }
+
         .selected {
             background-color: #4CAF50; /* Green */
             color: white;
         }
+
         img {
+            width: 100%; /* Responsive width */
+            height: auto;
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }   
-        #result {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 20px;
-        color:Purple;
+            margin: 0 auto;
         }
- 
+
+        #result {
+            font-size: 18px; /* Larger font size for readability */
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            color: Purple;
+        }
+
+        @media screen and (max-width: 600px) {
+            .temp, .taste {
+                font-size: 14px; /* Adjust font size for very small screens */
+            }
+
+            #result {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-    <img src="https://iili.io/JIe4jMG.png" alt="Food Selector Title" style="width: auto; margin-top: 20px;">
+    <!-- Optimized image sources for mobile -->
+    <img src="https://iili.io/JIe4jMG.webp" alt="Food Selector Title">
 
     <button id="hot" class="temp">Hot</button>
     <button id="cold" class="temp">Cold</button>
     <button id="sweet" class="taste">Sweet</button>
     <button id="savoury" class="taste">Savoury</button>
 
-    <img src="https://alissarumsey.com/wp-content/uploads/2015/06/hangry-photo.jpg" alt="Hangry Photo" style="width: 35%;">
+    <img src="https://alissarumsey.com/wp-content/uploads/2015/06/hangry-photo.webp" alt="Hangry Photo">
 
     <p id="result"></p>
 

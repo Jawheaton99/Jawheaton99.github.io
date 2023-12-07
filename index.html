@@ -1,176 +1,137 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Submarine Game</title>
+    <title>Food Selector</title>
     <style>
-        #game-container {
-            position: relative;
-            width: 800px;
-            height: 800px;
-            border: 1px solid black;
-            overflow: hidden;
-            background-color: lightblue;
+        body {
+            background-color: #FFD1DC; /* Pastel Pink */
         }
-        
-        #submarine {
-            position: absolute;
-            width: 140px;
-            height: 120px;
-            bottom: 0;
-            left: 330px;
+        .selected {
+            background-color: #4CAF50; /* Green */
+            color: white;
         }
-        
-        .obstacle {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            bottom: 800px;
-            background-image: url('https://iili.io/HsAfAX9.png');
-            background-repeat: no-repeat;
-            background-size: 100%;
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }   
+        #result {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+        color:Purple;
         }
-        
-        #depth-counter {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 18px;
-        }
+ 
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <div id="depth-counter">Depth: 0m</div>
-        <img id="submarine" src="https://iili.io/HsA3AWg.png" alt="Ocean Gate Titan Submersible PNG" border="0">
-    </div>
+    <img src="https://iili.io/JIe4jMG.png" alt="Food Selector Title" style="width: auto; margin-top: 20px;">
 
-    <audio id="bg-music" src="Titanic Theme Song (8-Bit)(1).wav" loop></audio>
+    <button id="hot" class="temp">Hot</button>
+    <button id="cold" class="temp">Cold</button>
+    <button id="sweet" class="taste">Sweet</button>
+    <button id="savoury" class="taste">Savoury</button>
+
+    <img src="https://alissarumsey.com/wp-content/uploads/2015/06/hangry-photo.jpg" alt="Hangry Photo" style="width: 35%;">
+
+    <p id="result"></p>
 
     <script>
-        const submarine = document.getElementById('submarine');
-        const gameContainer = document.getElementById('game-container');
-        const depthCounter = document.getElementById('depth-counter');
-        const bgMusic = document.getElementById('bg-music');
-        let score = 0;
-        let gameSpeed = 2;
-        let isGameOver = false;
-        let depth = 0;
+        let temperature = '';
+        let taste = '';
 
-        function moveSubmarine(event) {
-            if (isGameOver) return;
+        const sweetHot = [
+            "Home Baked Cake",
+            "Jam Toast",
+            "Chocolate-Dipped Fruit",
+            "Fritters",
+            "Pie and Custard",
+            "Rice Pudding"
+        ];
 
-            let leftPosition = parseInt(window.getComputedStyle(submarine).getPropertyValue('left'));
-            const submarineWidth = parseInt(window.getComputedStyle(submarine).getPropertyValue('width'));
-            const containerWidth = parseInt(window.getComputedStyle(gameContainer).getPropertyValue('width'));
+        const sweetCold = [
+            "Chocolate",
+            "Berries and Cream",
+            "Fruit Salad",
+            "Iced Coffee (Sweetened)",
+            "Chocolate Cake",
+            "Sweet Berry Smoothie",
+            "Ice Cream",
+            "Sorbet",
+            "Pina Colada",
+            "Homemade Mousse"
+        ];
 
-            if (event.code === 'ArrowLeft' && leftPosition > 10) {
-                submarine.style.left = `${leftPosition - 10}px`;
-            } else if (event.code === 'ArrowRight' && leftPosition + submarineWidth < containerWidth - 10) {
-                submarine.style.left = `${leftPosition + 10}px`;
-            }
-        }
+        const savouryHot = [
+            "Steak",
+            "Salmon Stirfry",
+            "BBQ Ribs",
+            "Noodles",
+            "Omelette",
+            "Duck Pancakes",
+            "Hot Taco Bowl",
+            "Chicken Wings"
+        ];
 
-        function createObstacle() {
-            if (isGameOver) return;
+        const savouryCold = [
+            "Blue Cheese Crackers",
+            "Pasta Salad",
+            "Chicken Salad",
+            "Cold Sushi Rolls",
+            "Savoury Cold Cuts Platter",
+            "Salmon and Cream Cheese",
+            "Hummus and Crudite"
+        ];
 
-            const obstacle = document.createElement('div');
-            obstacle.classList.add('obstacle');
-            obstacle.style.left = `${Math.random() * 700}px`;
-            gameContainer.appendChild(obstacle);
+        const tempButtons = document.querySelectorAll('.temp');
+        const tasteButtons = document.querySelectorAll('.taste');
 
-            let obstacleBottom = 800;
-            let gameTimer = setInterval(() => {
-                if (isGameOver) {
-                    clearInterval(gameTimer);
-                    obstacle.remove();
-                    return;
+        tempButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                temperature = this.id;
+                updateButtonStyles(tempButtons, this.id);
+                updateResult();
+            });
+        });
+
+        tasteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                taste = this.id;
+                updateButtonStyles(tasteButtons, this.id);
+                updateResult();
+            });
+        });
+
+        function updateResult() {
+            if (temperature && taste) {
+                let selectedArray;
+                if (temperature === 'hot' && taste === 'sweet') {
+                    selectedArray = sweetHot;
+                } else if (temperature === 'cold' && taste === 'sweet') {
+                    selectedArray = sweetCold;
+                } else if (temperature === 'hot' && taste === 'savoury') {
+                    selectedArray = savouryHot;
+                } else if (temperature === 'cold' && taste === 'savoury') {
+                    selectedArray = savouryCold;
                 }
 
-                if (obstacleBottom < 0) {
-                    clearInterval(gameTimer);
-                    obstacle.remove();
-                    score++;
+                const randomItem = selectedArray[Math.floor(Math.random() * selectedArray.length)];
+                document.getElementById('result').innerText = 'Selected Filters: ' + temperature.toUpperCase() + ', ' + taste.toUpperCase() + '\nSelected Food: ' + randomItem;
+            }
+        }
+
+        function updateButtonStyles(buttonGroup, selectedId) {
+            buttonGroup.forEach(button => {
+                if (button.id === selectedId) {
+                    button.classList.add('selected');
+                } else {
+                    button.classList.remove('selected');
                 }
-
-                obstacle.style.bottom = `${obstacleBottom}px`;
-                obstacleBottom -= gameSpeed;
-
-                let submarineRect = submarine.getBoundingClientRect();
-                let obstacleRect = obstacle.getBoundingClientRect();
-
-                if (isColliding(submarineRect, obstacleRect)) {
-                    gameOver();
-                }
-            }, 20);
+            });
         }
-
-        function isColliding(rect1, rect2) {
-            let buffer = 30;  // Adjust this value to change the collision threshold
-            return (
-                rect1.left + buffer < rect2.right &&
-                rect1.right - buffer > rect2.left &&
-                rect1.top + buffer < rect2.bottom &&
-                rect1.bottom - buffer > rect2.top
-            );
-        }
-
-        function increaseGameSpeed() {
-            if (score > 0 && score % 5 === 0) {
-                gameSpeed += 1;
-            }
-        }
-
-        function updateDepth() {
-            depth++;
-            depthCounter.innerText = `Depth: ${depth}m`;
-        }
-
-        function gameOver() {
-            isGameOver = true;
-            bgMusic.pause();
-
-            // Create a new img element for the collision image
-            const collisionImage = document.createElement('img');
-            collisionImage.id = 'collision-image';
-            collisionImage.src = 'https://iili.io/HLVpDSs.png';
-            collisionImage.style.position = 'absolute';
-            collisionImage.style.top = '50%';
-            collisionImage.style.left = '50%';
-            collisionImage.style.transform = 'translate(-50%, -50%)';
-            collisionImage.style.zIndex = '10';  // Ensure the image appears above other elements
-            gameContainer.appendChild(collisionImage);
-
-            alert(`Game over! Your depth: ${depth}m`);
-
-            resetGame();
-        }
-
-        function resetGame() {
-            // Remove the collision image
-            const collisionImage = document.getElementById('collision-image');
-            if (collisionImage) {
-                collisionImage.remove();
-            }
-
-            isGameOver = false;
-            score = 0;
-            gameSpeed = 2;
-            depth = 0;
-            depthCounter.innerText = 'Depth: 0m';
-            while (gameContainer.firstChild) {
-                gameContainer.firstChild.remove();
-            }
-        }
-
-        function startGame() {
-            window.addEventListener('keydown', moveSubmarine);
-            setInterval(createObstacle, 2000);
-            setInterval(increaseGameSpeed, 5000);
-            setInterval(updateDepth, 1000);
-            bgMusic.play();
-        }
-
-        startGame();
     </script>
 </body>
 </html>
